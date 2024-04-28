@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dynamoose from 'dynamoose';
+import process = require('process');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -8,11 +9,13 @@ async function bootstrap() {
   // Create new DynamoDB instance
   const ddb = new dynamoose.aws.ddb.DynamoDB({
     credentials: {
-      accessKeyId: 'AKIAXYKJTTV5XQPLZ3WF',
-      secretAccessKey: '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',
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.secretAccessKey,
     },
     region: 'us-east-2',
   });
+
+  //console.log(process.env.AWS_ACCESS_KEY_ID);
 
   // Set DynamoDB instance to the Dynamoose DDB instance
   dynamoose.aws.ddb.set(ddb);
